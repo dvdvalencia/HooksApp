@@ -19,13 +19,20 @@ export type TaskAction =
 
   export const getTasksInitialState = (): TaskState => {
 
-    return{
-      todos: [],
-      completed: 0,
-      pending: 0,
-      length: 0,
+    const localStorageState = localStorage.getItem('task-state');
+
+    if  ( !localStorageState) {
+      
+          return{
+            todos: [],
+            completed: 0,
+            pending: 0,
+            length: 0,
+          }
+          
     }
-    
+
+    return JSON.parse(localStorageState);
   }
 
 
