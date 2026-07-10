@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { SkipForward, Play } from "lucide-react";
+import confetti from "canvas-confetti";
 
 const GAME_WORDS = [
   "REACT",
@@ -63,21 +64,43 @@ export const ScrambleWords = () => {
 
     if (guess === currentWord) {
       const newWords = words.slice(1);
+
+      confetti({
+        particleCount: 100,
+        spread: 100,
+        origin: { y: 0.6 },
+      });
+
       setPoints((prev) => prev + 1);
       setGuess("");
       setWords(newWords);
       setCurrentWord(newWords[0]);
       setScrambledWord(scrambleWord(newWords[0]));
       return;
-    } else {
-      setErrorCounter((prev) => prev + 1);
+    }
+    setErrorCounter(errorCounter + 1);
+    setGuess("");
+
+    if (errorCounter + 1 >= maxAllowErrors) {
+      setIsGameOver(true);
     }
 
-    console.log("Intento de adivinanza:", guess, currentWord);
+    // console.log("Intento de adivinanza:", guess, currentWord);
   };
 
   const handleSkip = () => {
-    console.log("Palabra saltada");
+    if (skipCounter >= maxSkips) return;
+
+    const updatedWwords = words.splice(1);
+
+    setSkipCounter(skipCounter + 1);
+
+    setWords(updatedWwords);
+    setCurrentWord(updatedWwords[0]);
+    setScrambledWord(scrambleWord(updatedWwords[0]));
+    setGuess("");
+ 
+    // console.log("Palabra saltada");
   };
 
   const handlePlayAgain = () => {
