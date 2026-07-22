@@ -9,7 +9,8 @@ import './index.css'
 // import { PokemonPage } from './03-examples/PokemonPage'
 // import { FocusScreen } from './04-useRef/FocusScreen'
 // import { TasksApp } from './05-useReducer/TaskApp'
-import { ScrambleWords } from './05-useReducer/reducer/ScrambeWords'
+// import { ScrambleWords } from './05-useReducer/reducer/ScrambeWords'
+import { ScrambleWords } from './05-useReducer/reducer/ScrambeWordsUseState'
 
 
 
@@ -23,6 +24,7 @@ createRoot(document.getElementById('root')!).render(
     {/* <PokemonPage /> */}
     {/* <FocusScreen /> */}
     {/* <TasksApp /> */}
+    {/* <ScrambleWords /> */}
     <ScrambleWords />
     
 
