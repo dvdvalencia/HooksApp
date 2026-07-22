@@ -10,8 +10,8 @@ import './index.css'
 // import { FocusScreen } from './04-useRef/FocusScreen'
 // import { TasksApp } from './05-useReducer/TaskApp'
 // import { ScrambleWords } from './05-useReducer/reducer/ScrambeWords'
-import { ScrambleWords } from './05-useReducer/reducer/ScrambeWordsUseState'
-
+// import { ScrambleWords } from './05-useReducer/reducer/ScrambeWordsUseState'
+import { MemoHook } from './06-memos/MemoHook'
 
 
 
@@ -25,7 +25,8 @@ createRoot(document.getElementById('root')!).render(
     {/* <FocusScreen /> */}
     {/* <TasksApp /> */}
     {/* <ScrambleWords /> */}
-    <ScrambleWords />
+    {/* <ScrambleWords /> */}
+    <MemoHook />
     
 
 
