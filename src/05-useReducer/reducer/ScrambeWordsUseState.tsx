@@ -17,12 +17,10 @@ const scrambleWord = (word: string = "") => {
     .join("");
 };
 
-
 export const ScrambleWords = () => {
+  const [state, dispatch] = useReducer(scrambleWordsReducer, getInitialState());
 
-  const [state, dispatch] = useReducer(scrambleWordsReducer, getInitialState())
-
-  const { 
+  const {
     words,
     currentWord,
     errorCounter,
@@ -34,90 +32,42 @@ export const ScrambleWords = () => {
     scrambledWord,
     skipCounter,
     totalWords,
-   } = state;
-
-  // const [words, setWords] = useState(shuffleArray(GAME_WORDS));
-  // const [currentWord, setCurrentWord] = useState(words[0]);
-  // const [scrambledWord, setScrambledWord] = useState(scrambleWord(currentWord));
-  // const [guess, setGuess] = useState("");
-  // const [points, setPoints] = useState(0);
-  // const [errorCounter, setErrorCounter] = useState(0);
-  // const [maxAllowErrors, setMaxAllowErrors] = useState(3);
-
-  // const [skipCounter, setSkipCounter] = useState(0);
-  // const [maxSkips, setMaxSkips] = useState(3);
-
-  // const [isGameOver, setIsGameOver] = useState(false);
+  } = state;
 
   const handleGuessSubmit = (e: React.FormEvent) => {
     // Previene el refresh de la página
     e.preventDefault();
 
     dispatch({
-      type: 'CHECK_ANSWER',
-    })
-    // Implementar lógica de juego
-
-    // if (guess === currentWord) {
-    //   const newWords = words.slice(1);
-
-    //   confetti({
-    //     particleCount: 100,
-    //     spread: 120,
-    //     origin: { y: 0.6 },
-    //   });
-
-    //   setPoints(points + 1);
-    //   setGuess("");
-    //   setWords(newWords);
-    //   setCurrentWord(newWords[0]);
-    //   setScrambledWord(scrambleWord(newWords[0]));
-    //   return;
-    // }
-    // setErrorCounter(errorCounter + 1);
-    // setGuess("");
-
-    // if (errorCounter + 1 >= maxAllowErrors) {
-    //   setIsGameOver(true);
-    // }
+      type: "CHECK_ANSWER",
+    });
+    // lógica de juego
 
     // console.log("Intento de adivinanza:", guess, currentWord);
   };
 
   const handleSkip = () => {
-    // if (skipCounter >= maxSkips) return;
-
-    // const updatedWwords = words.splice(1);
-
-    // setSkipCounter(skipCounter + 1);
-    // setWords(updatedWwords);
-    // setCurrentWord(updatedWwords[0]);
-    // setScrambledWord(scrambleWord(updatedWwords[0]));
-    // setGuess("");
+    dispatch({
+      type: "SKIP_WORD",
+    });
 
     // console.log("Palabra saltada");
   };
 
   const handlePlayAgain = () => {
-    // const newArray = shuffleArray(GAME_WORDS);
-    // setPoints(0);
-    // setErrorCounter(0);
-    // setGuess("");
-    // setWords(newArray);
-    // setCurrentWord(newArray[0]);
-    // setIsGameOver(false);
-    // setSkipCounter(0);
-    // setScrambledWord(scrambleWord(newArray[0]));
+    dispatch({
+      type: "START_NEW_GAME",
+      payload: getInitialState(),
+    });
     // console.log("Jugar de nuevo");
   };
 
   if (words.length === 0) {
     confetti({
-        particleCount: 100,
-        spread: 100,
-        origin: { y: 0.6 },
-      });
-
+      particleCount: 100,
+      spread: 100,
+      origin: { y: 0.6 },
+    });
   }
 
   //! Si ya no hay palabras para jugar, se muestra el mensaje de fin de juego
@@ -197,20 +147,19 @@ export const ScrambleWords = () => {
                     id="guess"
                     type="text"
                     value={guess}
-                    onChange={(e) => { 
-
+                    onChange={(e) => {
                       dispatch({
-                        type: 'SET_GUESS', payload: e.target.value,
-                      })
+                        type: "SET_GUESS",
+                        payload: e.target.value,
+                      });
                       // console.log(e.target.value);
-                      
-                    //   setGuess(e.target.value.toUpperCase().trim())
+
+                      //   setGuess(e.target.value.toUpperCase().trim())
                     }}
                     placeholder="Ingresa tu palabra..."
                     className="text-center text-lg font-semibold h-12 border-2 border-indigo-200 focus:border-indigo-500 transition-colors"
                     maxLength={scrambledWord.length}
                     disabled={isGameOver}
-                    
                   />
                 </div>
                 <Button

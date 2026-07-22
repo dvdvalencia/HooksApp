@@ -12,9 +12,6 @@ export interface ScrambleWordsState {
   words: string[];
 }
 
-// export type ScrambleWordsAction = {
-//   type: 'Acciones'
-// }
 const GAME_WORDS = [
   "REACT",
   "JAVASCRIPT",
@@ -69,7 +66,8 @@ export const getInitialState = (): ScrambleWordsState => {
 export type ScrambleWordsAction =
   | { type: "SET_GUESS"; payload: string }
   | { type: "CHECK_ANSWER" }
-  | { type: "NO_TENGO_IDEA_DE_QUE_ACCIONES_NECESITO3" };
+  | { type: "SKIP_WORD" }
+  | { type: "START_NEW_GAME"; payload: ScrambleWordsState };
 
 export const scrambleWordsReducer = (
   state: ScrambleWordsState,
@@ -97,11 +95,28 @@ export const scrambleWordsReducer = (
 
       return {
         ...state,
-        guess:'',
+        guess: "",
         errorCounter: state.errorCounter + 1,
-        isGameOver: state.errorCounter + 1 >= state.maxAllowErrors
-      }
+        isGameOver: state.errorCounter + 1 >= state.maxAllowErrors,
+      };
     }
+    case "SKIP_WORD": {
+      if (state.skipCounter >= state.maxSkips) return state;
+
+      const updatedWwords = state.words.slice(1);
+
+      return {
+        ...state,
+        skipCounter: state.skipCounter + 1,
+        words: updatedWwords,
+        currentWord: updatedWwords[0],
+        scrambledWord: scrambleWord(updatedWwords[0]),
+        guess: "",
+      };
+    }
+
+    case "START_NEW_GAME":
+      return action.payload;
 
     default:
       return state;
