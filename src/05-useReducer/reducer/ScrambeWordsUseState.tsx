@@ -52,6 +52,10 @@ export const ScrambleWords = () => {
   const handleGuessSubmit = (e: React.FormEvent) => {
     // Previene el refresh de la página
     e.preventDefault();
+
+    dispatch({
+      type: 'CHECK_ANSWER',
+    })
     // Implementar lógica de juego
 
     // if (guess === currentWord) {
@@ -194,7 +198,11 @@ export const ScrambleWords = () => {
                     type="text"
                     value={guess}
                     onChange={(e) => { 
-                      console.log(e.target.value);
+
+                      dispatch({
+                        type: 'SET_GUESS', payload: e.target.value,
+                      })
+                      // console.log(e.target.value);
                       
                     //   setGuess(e.target.value.toUpperCase().trim())
                     }}
